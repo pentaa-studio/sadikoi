@@ -119,6 +119,36 @@ document.addEventListener('DOMContentLoaded', async function() {
     // The manifest bytes are ours; SRI protects against CDN compromise, not this.
     template = template.replace(/\s+integrity="[^"]*"/gi, '').replace(/\s+crossorigin="[^"]*"/gi, '');
 
+    function stripPhoneChrome(html) {
+      html = html.replace(/\s*<!-- status bar -->[\s\S]*?<!-- dynamic island -->\s*<div style="position:absolute;top:15px;left:50%;transform:translateX\(-50%\);width:116px;height:33px;border-radius:20px;background:#0c0c12;z-index:65"><\/div>\s*/g, '');
+      html = html.replace(/\s*<!-- home indicator -->\s*<div style="position:absolute;bottom:7px;left:50%;transform:translateX\(-50%\);width:130px;height:5px;border-radius:999px;background:rgba\(27,27,58,.32\);z-index:70;pointer-events:none"><\/div>\s*/g, '');
+      html = html.replace(
+        /<div id="sk-phone" style="position:relative;width:402px;height:854px;border-radius:56px;background:#101019;padding:11px;box-shadow:0 50px 90px rgba\(27,27,58,.34\), 0 0 0 2px rgba\(27,27,58,.06\);flex-shrink:0">/,
+        '<div id="sk-phone" style="position:relative;width:100%;height:100%;border-radius:0;background:transparent;padding:0;box-shadow:none;flex-shrink:0">'
+      );
+      html = html.replace(
+        /<div style="position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:#FFF7ED">/,
+        '<div style="position:absolute;inset:0;border-radius:0;overflow:hidden;background:#FFF7ED">'
+      );
+      html = html.replace(
+        /<div style="position:absolute;inset:0;border-radius:46px;overflow:hidden">/,
+        '<div style="position:absolute;inset:0;border-radius:0;overflow:hidden">'
+      );
+      return html;
+    }
+
+    function removePhoneChromeFromDom() {
+      var phone = document.getElementById('sk-phone');
+      if (!phone) return;
+      phone.querySelectorAll('div').forEach(function(el) {
+        var s = el.getAttribute('style') || '';
+        if (s.indexOf('height:54px') !== -1 && s.indexOf('z-index:60') !== -1) el.remove();
+        else if (s.indexOf('width:116px') !== -1 && s.indexOf('border-radius:20px') !== -1) el.remove();
+        else if (s.indexOf('bottom:7px') !== -1 && s.indexOf('width:130px') !== -1) el.remove();
+      });
+    }
+
+    template = stripPhoneChrome(template);
 
     template = template.replace(
       /content="width=device-width, initial-scale=1"/,
@@ -170,6 +200,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (window.Babel && typeof window.Babel.transformScriptTags === 'function') {
       window.Babel.transformScriptTags();
     }
+    removePhoneChromeFromDom();
+    setTimeout(removePhoneChromeFromDom, 50);
+    setTimeout(removePhoneChromeFromDom, 300);
+    setTimeout(removePhoneChromeFromDom, 1000);
   } catch (err) {
     setStatus('Error unpacking: ' + err.message);
     console.error('Bundle unpack error:', err);
