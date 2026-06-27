@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         ['padding:60px 20px 26px', 'padding:20px 20px 24px'],
       ].forEach(function(pair) { html = html.split(pair[0]).join(pair[1]); });
       html = html.replace(/margin-top:46px/g, 'margin-top:16px');
+      html = html.replace('3 à 10 joueurs', '2 à 10 joueurs');
       return html;
     }
 
