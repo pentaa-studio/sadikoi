@@ -1,0 +1,12 @@
+name: qui_a_dit
+
+packages:
+  - apps/mobile
+  - packages/**
+
+command:
+  bootstrap:
+    run: flutter pub get
+    exec:
+      concurrency: 1
+      failFast: true

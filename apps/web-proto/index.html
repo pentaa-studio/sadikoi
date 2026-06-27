@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Sadikoi</title>
+  <title>Qui a dit ?</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #FFF7ED; display: flex; align-items: center; justify-content: center; min-height: 100vh; min-height: 100dvh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -26,8 +26,8 @@
     <rect width="1200" height="800" fill="#FFF7ED"></rect>
     <g transform="translate(600 400)">
       <rect x="-300" y="-150" width="600" height="280" rx="44" fill="#ffffff" stroke="#1B1B3A" stroke-width="14" transform="rotate(-3)"></rect>
-      <text x="0" y="-10" font-family="Georgia, serif" font-size="120" fill="#1B1B3A" text-anchor="middle" transform="rotate(-3)">Sadi<tspan fill="#F2542D">koi</tspan></text>
-      <text x="0" y="80" font-family="Georgia, serif" font-style="italic" font-size="46" fill="#1B1B3A" text-anchor="middle" transform="rotate(-3)" opacity="0.8">« ça dit quoi ?! »</text>
+      <text x="0" y="-10" font-family="Georgia, serif" font-size="72" fill="#1B1B3A" text-anchor="middle" transform="rotate(-3)">Qui a <tspan fill="#F2542D">dit ?</tspan></text>
+      <text x="0" y="80" font-family="Georgia, serif" font-style="italic" font-size="32" fill="#1B1B3A" text-anchor="middle" transform="rotate(-3)" opacity="0.8">Devine qui a dit…</text>
     </g>
   </svg>
 </div>
@@ -167,6 +167,12 @@ document.addEventListener('DOMContentLoaded', async function() {
       );
       html = html.replace("['Fin · Podium', 'gameover'], ['◆ Mode solo', 'solo'],", "['Fin · Podium', 'gameover'],");
       html = html.replace('hint-placeholder-count="11"', 'hint-placeholder-count="10"');
+      html = html.replace(
+        /<div style="font-family:'Baloo 2';font-weight:800;font-size:74px;line-height:.9;color:#1B1B3A;text-shadow:5px 5px 0 #FFC233;transform:rotate\(-3deg\)">Sadi<span style="color:#F2542D;text-shadow:5px 5px 0 #1B1B3A">koi<\/span><\/div>\s*<div style="margin-top:18px;font-family:'DM Serif Display';font-style:italic;font-size:21px;color:#1B1B3A;opacity:.8">« ça dit quoi[^<]*<\/div>/,
+        '<div style="font-family:\'Baloo 2\';font-weight:800;font-size:52px;line-height:.95;color:#1B1B3A;text-shadow:5px 5px 0 #FFC233;transform:rotate(-3deg)">Qui a <span style="color:#F2542D;text-shadow:5px 5px 0 #1B1B3A">dit ?</span></div>\n              <div style="margin-top:18px;font-family:\'DM Serif Display\';font-style:italic;font-size:21px;color:#1B1B3A;opacity:.8">Devine qui a dit…</div>'
+      );
+      html = html.replace(/@sadikoi/gi, '@quiadit');
+      html = html.replace(/Sadikoi/g, 'Qui a dit ?');
       return html;
     }
 
